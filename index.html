@@ -6,719 +6,405 @@
   <title>HSU Student Monitoring Dashboard</title>
   <meta
     name="description"
-    content="HSU Student Monitoring Dashboard is a master's-level analytics project that tracks student risk, performance, and financial indicators using a synthetic dataset and interactive BI dashboard."
+    content="HSU Student Monitoring Dashboard – a unified analytics platform to monitor student success across academic, financial, housing, and engagement domains."
   />
-
-  <!-- ====== HSU SCHOOL THEME CSS (INLINE, UNIQUE) ====== -->
-  <style>
-    :root {
-      --bg: #f4f5fb;
-      --bg-alt: #e9f2ff;
-      --card: #ffffff;
-      --accent: #1d4ed8;          /* HSU blue */
-      --accent-soft: rgba(37, 99, 235, 0.08);
-      --accent-secondary: #16a34a; /* HSU green */
-      --text-main: #111827;
-      --text-muted: #6b7280;
-      --border-subtle: #d1d5db;
-      --shadow-soft: 0 10px 30px rgba(148, 163, 184, 0.35);
-      --radius-lg: 14px;
-      --radius-xl: 18px;
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-    }
-
-    * ,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: var(--font-main);
-      background: radial-gradient(circle at top, #e5edf7 0, #f9fafb 40%, #f3f4f6 100%);
-      color: var(--text-main);
-      line-height: 1.6;
-    }
-
-    /* Skip link */
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      background: #1d4ed8;
-      color: #ffffff;
-      border-radius: 999px;
-      text-decoration: none;
-      font-size: 0.85rem;
-      z-index: 100;
-    }
-
-    .skip-link:focus {
-      top: 0.75rem;
-    }
-
-    /* Layout */
-    .container {
-      width: min(1120px, 100% - 2.5rem);
-      margin: 0 auto;
-    }
-
-    .section {
-      padding: 4rem 0;
-    }
-
-    .section-alt {
-      background: linear-gradient(135deg, #edf2ff, #f9fafb);
-    }
-
-    .section-title {
-      font-size: 1.8rem;
-      margin-bottom: 1.75rem;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      color: #1f2937;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: var(--radius-xl);
-      padding: 1.75rem 2rem;
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.75rem;
-    }
-
-    /* HEADER / NAV – SCHOOL TOP BAR */
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: linear-gradient(90deg, #1d4ed8, #2563eb);
-      color: #e5f0ff;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.85rem 0;
-      gap: 1rem;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .logo-mark {
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 1rem;
-      color: #1d4ed8;
-    }
-
-    .logo-text-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .logo-title {
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      font-size: 0.95rem;
-      color: #e5edff;
-    }
-
-    .logo-subtitle {
-      font-size: 0.78rem;
-      color: #c7d2fe;
-    }
-
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .nav a {
-      font-size: 0.8rem;
-      text-decoration: none;
-      color: #e5edff;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      transition: all 0.18s ease;
-      border: 1px solid transparent;
-      background: rgba(15, 23, 42, 0.12);
-    }
-
-    .nav a:hover,
-    .nav a:focus-visible {
-      color: #111827;
-      border-color: #e5edff;
-      background: #ffffff;
-    }
-
-    /* HERO */
-
-    .section-hero {
-      padding-top: 4.5rem;
-      padding-bottom: 3.5rem;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.5fr);
-      gap: 2.25rem;
-      align-items: center;
-    }
-
-    .hero-text h1 {
-      font-size: clamp(2rem, 3vw, 2.6rem);
-      margin-bottom: 0.75rem;
-      color: #111827;
-    }
-
-    .hero-subtitle {
-      color: var(--text-muted);
-      max-width: 36rem;
-      font-size: 1rem;
-    }
-
-    .hero-meta {
-      margin-top: 0.9rem;
-      font-size: 0.9rem;
-      color: #4b5563;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 1.4rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.6rem 1.35rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border: 1px solid transparent;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.18s ease;
-    }
-
-    .btn.primary {
-      background: linear-gradient(135deg, #16a34a, #22c55e);
-      color: #ffffff;
-      box-shadow: 0 10px 25px rgba(22, 163, 74, 0.45);
-    }
-
-    .btn.primary:hover {
-      filter: brightness(1.03);
-      transform: translateY(-1px);
-    }
-
-    .hero-card {
-      background: #ffffff;
-      padding: 1.75rem 1.9rem;
-      border-radius: var(--radius-xl);
-      border: 1px solid #d1e3ff;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .hero-card h2 {
-      margin-top: 0;
-      margin-bottom: 0.85rem;
-      font-size: 1.05rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #1f2937;
-    }
-
-    .hero-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .hero-list li {
-      position: relative;
-      padding-left: 1.5rem;
-      margin-bottom: 0.6rem;
-      font-size: 0.9rem;
-      color: #374151;
-    }
-
-    .hero-list li::before {
-      content: "";
-      position: absolute;
-      left: 0.3rem;
-      top: 0.52rem;
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--accent-secondary);
-    }
-
-    /* LISTS & NOTES */
-
-    .bullet-list {
-      margin: 0;
-      padding-left: 1.1rem;
-    }
-
-    .bullet-list li {
-      margin-bottom: 0.6rem;
-      font-size: 0.95rem;
-      color: #374151;
-    }
-
-    .numbered-list {
-      padding-left: 1.3rem;
-      margin: 0;
-    }
-
-    .numbered-list li {
-      margin-bottom: 0.6rem;
-      font-size: 0.95rem;
-      color: #374151;
-    }
-
-    .note {
-      margin-top: 0.7rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    /* DASHBOARD EMBED */
-
-    .dashboard-embed {
-      margin-top: 0.85rem;
-      border-radius: var(--radius-lg);
-      border: 1px dashed rgba(148, 163, 184, 0.8);
-      padding: 1.2rem;
-      background: #f9fafb;
-    }
-
-    .dashboard-embed iframe {
-      width: 100%;
-      height: 380px;
-      border-radius: 12px;
-      border: none;
-    }
-
-    .placeholder-text {
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    /* FOOTER */
-
-    .site-footer {
-      padding: 1.8rem 0 2.2rem;
-      border-top: 1px solid #e5e7eb;
-      background: #ffffff;
-      margin-top: 1rem;
-    }
-
-    .footer-inner {
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .footer-meta {
-      margin-top: 0.3rem;
-    }
-
-    /* RESPONSIVE */
-
-    @media (max-width: 900px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .nav {
-        justify-content: flex-start;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .section {
-        padding: 3.25rem 0;
-      }
-
-      .card {
-        padding: 1.4rem 1.5rem;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <a href="#home" class="skip-link">Skip to main content</a>
-
   <!-- ================= HEADER / NAVBAR ================= -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="logo" aria-label="HSU Dashboard logo">
-        <div class="logo-mark">HSU</div>
-        <div class="logo-text-group">
-          <span class="logo-title">HSU Student Monitoring</span>
-          <span class="logo-subtitle">Holistic Student University</span>
-        </div>
-      </div>
-      <nav class="nav" aria-label="Primary navigation">
-        <a href="#home">Home</a>
-        <a href="#executive-summary">Executive Summary</a>
-        <a href="#problem-context">Problem & Stakeholders</a>
-        <a href="#data-design">Data & Design</a>
-        <a href="#risk-kpi">Risk Model & KPIs</a>
-        <a href="#dashboard">Dashboard Insights</a>
-        <a href="#ethics">Privacy & Ethics</a>
-        <a href="#lessons">Lessons & Next Steps</a>
-        
+  <header>
+    <div class="nav-container">
+      <div class="logo">HSU Student Monitoring Dashboard</div>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#problem">Problem</a></li>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#solution">Solution</a></li>
+          <li><a href="#charter">Project Charter</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#dashboard">Dashboard</a></li>
+          <li><a href="#ethics">Ethics</a></li>
+          <li><a href="#reflection">Reflection</a></li>
+          <li><a href="#appendix">Appendix</a></li>
+        </ul>
       </nav>
     </div>
   </header>
 
+  <!-- ================= MAIN CONTENT ================= -->
   <main>
-    <!-- ================= HERO / HOME ================= -->
-    <section id="home" class="section section-hero" aria-labelledby="home-title">
-      <div class="container hero-grid">
-        <div class="hero-text">
-          <h1 id="home-title">HSU Student Monitoring Dashboard</h1>
-          <p class="hero-subtitle">
-            A student analytics prototype that visualizes Academic,Housing, Financial,
-            and Engagement risk for students at HSU using a synthetic dataset
-            and an interactive business intelligence dashboard.
-          </p>
-          <p class="hero-meta">
-            <strong>Institution (Hypothetical):</strong> HSU – Holistic Student University<br />
-            <strong>Project Type:</strong> Student analytics & early-alert monitoring
-          </p>
-          <p class="hero-meta">
-            <strong>Role:</strong> Graduate Student – Data & Dashboard Developer<br />
-            <strong>Tools:</strong> Excel / CSV, Power BI, SQL-style thinking for data design
-          </p>
-          <div class="hero-actions">
-            <a class="btn primary" href="#dashboard">View Dashboard Insights</a>
+    <!-- ============ HOME / COVER ============ -->
+    <section id="home">
+      <div class="section-card">
+        <span class="pill">Master's Research Project</span>
+        <h1>HSU Student Monitoring Dashboard</h1>
+        <p class="tagline">
+          A unified analytics platform that combines academic, financial, housing,
+          and engagement data to support early identification of at-risk students
+          and data-informed advising.
+        </p>
+
+        <h3>Team</h3>
+        <p><strong>Team Name:</strong> Techstat</p>
+        <ul class="team-grid">
+          <li>
+            <span class="team-name">Abhiram Kallepalli</span>
+            
+          </li>
+          <li>
+            <span class="team-name"> Nithin Reddy Gurram</span>
+           </li>
+          <li>
+            <span class="team-name">Maheshwari Vuduturi</span>
+            
+          </li>
+          <li>
+            <span class="team-name">Eswar Mallemkondu</span>
+           </li>
+          <li>
+            <span class="team-name"> Govardhan Byrisetty</span>
+           
+          </li>
+        </ul>
+
+        <h2>Executive Summary</h2>
+        <p>
+          The HSU Student Monitoring Dashboard is an integrated, data-driven
+          solution designed to support universities in understanding and improving
+          student success. Across higher education, institutions struggle with
+          fragmented data spread across academic, housing, financial, and
+          engagement systems, making it difficult for advisors to identify students
+          who may be at risk. This project addresses that challenge by creating a
+          unified platform that consolidates all student information into an
+          interactive, analytics-focused dashboard.
+        </p>
+        <p>
+          Using a structured ETL pipeline in Power Query and a star-schema data
+          model, the system merges academic performance metrics, financial
+          standing, housing indicators, and co-curricular engagement. These
+          datasets are transformed into a FactStudent table and multiple supporting
+          dimensions, enabling deep analysis and drill-down capabilities. A set of
+          DAX-based KPIs—including risk score, attendance trends, academic flags,
+          engagement levels, and financial compliance—forms the core of the
+          analytics engine.
+        </p>
+        <p>
+          The final Power BI dashboard presents two main reporting views: a
+          Students Overview Page that summarizes risk levels across the campus,
+          and a Student Details Page offering a 360-degree profile for each
+          individual student. Together, these insights support academic advisors,
+          program coordinators, and student support staff in making data-informed
+          decisions and strengthening institutional retention strategies.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ PROBLEM CONTEXT & STAKEHOLDERS ============ -->
+    <section id="problem">
+      <div class="section-card">
+        <h2>Problem Context &amp; Stakeholders</h2>
+        <p>
+          Universities generate large volumes of student data across multiple
+          departments, but these systems often operate in isolation. Advisors
+          receive academic updates separately from financial alerts, housing
+          concerns, or engagement data. This fragmented approach makes it
+          difficult to identify students who may be struggling, resulting in
+          delayed interventions and potential student dropouts.
+        </p>
+
+        <h3>The Problem</h3>
+        <ul class="key-points">
+          <li>Student data is siloed across academic, financial, housing, and engagement systems.</li>
+          <li>Advisors lack a unified view of student progress and challenges.</li>
+          <li>Manual reporting leads to delays, inconsistency, and missed signals.</li>
+          <li>Institutions need early-warning indicators to improve retention.</li>
+        </ul>
+
+        <h3>Stakeholders</h3>
+        <ul class="key-points">
+          <li><strong>Students</strong> – Receive timely, targeted support and reduced academic risk.</li>
+          <li><strong>Academic Advisors</strong> – Need a 360° view of each student’s situation.</li>
+          <li><strong>Student Success Offices</strong> – Monitor risk levels and intervention outcomes.</li>
+          <li><strong>Financial Services</strong> – Track balances, aid eligibility, and compliance.</li>
+          <li><strong>Housing Staff</strong> – Understand conflicts, housing stability, and residency engagement.</li>
+          <li><strong>University Leadership</strong> – Use aggregated insights to guide policy and resource allocation.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ RESEARCH & INSIGHTS ============ -->
+    <section id="research">
+      <div class="section-card">
+        <h2>Research &amp; Insights</h2>
+        <p>
+          Research in higher education analytics highlights that early
+          identification of at-risk students is critical for improving retention
+          and completion rates. Studies show that monitoring GPA, attendance, and
+          engagement patterns can significantly improve the effectiveness of
+          academic advising and support programs.
+        </p>
+        <p>
+          The literature also emphasizes that single-domain indicators are
+          insufficient. Combining academic performance, financial stress, housing
+          stability, and engagement provides a more accurate picture of student
+          success. Institutions increasingly rely on predictive analytics and
+          dashboards to operationalize this multi-dimensional view.
+        </p>
+        <p>
+          These findings informed the design of the HSU Student Monitoring
+          Dashboard in several ways: the model includes features from all four
+          domains, calculates a composite risk score, and allows advisors to drill
+          down into detailed student histories. The solution aligns with practices
+          used in commercial student-success platforms while remaining adaptable
+          to HSU’s specific needs and data environment.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ PROPOSED SOLUTION ============ -->
+    <section id="solution">
+      <div class="section-card">
+        <h2>Proposed Solution</h2>
+        <p>
+          The proposed solution is a unified Power BI–based analytics platform
+          that consolidates student data from Academic, Finance, Housing, and
+          Engagement systems into an integrated monitoring dashboard. Advisors and
+          student support staff can quickly scan campus-wide trends and then
+          drill into individual student profiles when risk indicators appear.
+        </p>
+
+        <h3>Key Features</h3>
+        <ul class="key-points">
+          <li>360° student profiles combining academic, financial, housing, and engagement metrics.</li>
+          <li>A DAX-based composite <strong>risk score</strong> and <strong>risk banding</strong> (low, medium, high).</li>
+          <li>Early-warning indicators for GPA drops, attendance issues, or financial non-compliance.</li>
+          <li>Two interactive dashboards: Students Overview and Student Detail.</li>
+          <li>Row-level security (RLS) to restrict access to students assigned to specific advisors.</li>
+          <li>Filterable views by term, program, risk level, and engagement status.</li>
+        </ul>
+        <p>
+          This solution modernizes advising workflows by replacing manual reports
+          with dynamic, visually rich dashboards that highlight where attention is
+          needed most.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ PROJECT CHARTER ============ -->
+    <section id="charter">
+      <div class="section-card">
+        <h2>Project Charter</h2>
+        <h3>Goal</h3>
+        <p>
+          Design and implement a unified student success dashboard that enables
+          HSU advisors and administrators to monitor risk, support decision-making,
+          and improve retention outcomes.
+        </p>
+
+        <h3>Scope</h3>
+        <ul class="key-points">
+          <li>Build an ETL process in Power Query for four source domains.</li>
+          <li>Design a star-schema data model with a FactStudent table and supporting dimensions.</li>
+          <li>Develop DAX measures for risk scoring and key performance indicators (KPIs).</li>
+          <li>Create Students Overview and Student Detail dashboard pages in Power BI.</li>
+          <li>Publish and embed the dashboard in a web-based project portfolio site.</li>
+        </ul>
+
+        <h3>Out of Scope</h3>
+        <ul class="key-points">
+          <li>Machine learning models or advanced predictive algorithms.</li>
+          <li>Live integration with production student information systems.</li>
+          <li>Custom authentication or integration with institutional SSO.</li>
+        </ul>
+
+        <h3>Deliverables</h3>
+        <ul class="key-points">
+          <li>Cleaned and modeled dataset.</li>
+          <li>Power BI dashboards and DAX measures.</li>
+          <li>Enterprise architecture and ER diagrams.</li>
+          <li>Documentation and project portfolio website.</li>
+        </ul>
+
+        <h3>High-Level Timeline</h3>
+        <ul class="key-points">
+          <li>Weeks 1–2: Requirements, data exploration, and ETL design.</li>
+          <li>Weeks 3–4: Data modeling, fact/dimension design, and DAX measures.</li>
+          <li>Weeks 5–6: Dashboard layout, testing, and iteration.</li>
+          <li>Week 7: Website build, documentation, and final presentation.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ ARCHITECTURE & DATA DESIGN ============ -->
+    <section id="architecture">
+      <div class="section-card">
+        <h2>Architecture &amp; Data Design</h2>
+
+        <div class="two-column">
+          <div>
+            <h3>Enterprise Architecture</h3>
+            <p>
+              The HSU Student Monitoring Dashboard uses a layered architecture that
+              separates data ingestion, transformation, storage, analytics, and
+              presentation. Data from Academic, Finance, Housing, and Engagement
+              systems flows through an integration layer into a central data model,
+              which is then surfaced through interactive Power BI dashboards.
+            </p>
+            <ul class="key-points">
+              <li><strong>Source Systems:</strong> Academic, Finance, Housing, Engagement.</li>
+              <li><strong>Integration Layer:</strong> Power Query for cleaning, transforming, and engineering features.</li>
+              <li><strong>Data Layer:</strong> FactStudent table plus DimAcademic, DimFinancial, DimHousing, and DimEngagement.</li>
+              <li><strong>Analytics Layer:</strong> DAX KPIs, composite risk score, and row-level security logic.</li>
+              <li><strong>Presentation Layer:</strong> Students Overview and Student Detail Power BI pages.</li>
+            </ul>
+          </div>
+          <div>
+            <figure>
+              <!-- Replace src with actual filename -->
+              <img src="HSU-Architecture-Diagram.png" alt="HSU Student Monitoring Dashboard Architecture Diagram" />
+              <figcaption>
+                Figure 1. Enterprise architecture for the HSU Student Monitoring Dashboard.
+              </figcaption>
+            </figure>
           </div>
         </div>
-        <aside class="hero-card" aria-label="Project at a glance">
-          <h2>At a Glance</h2>
-          <ul class="hero-list">
-            <li>2,000 synthetic student records</li>
-            <li>Risk scoring for academic + financial risk</li>
-            <li>KPIs for at-risk students, GPA bands, and outstanding balance</li>
-            <li>One-page early-alert dashboard for advisors and administrators</li>
-          </ul>
-        </aside>
-      </div>
-    </section>
 
-    <!-- ================= EXECUTIVE SUMMARY ================= -->
-    <section id="executive-summary" class="section" aria-labelledby="exec-title">
-      <div class="container">
-        <h2 class="section-title" id="exec-title">Executive Summary</h2>
-        <article class="card">
-          <p>
-            The HSU Student Monitoring Dashboard is a master’s-level analytics project
-            designed to demonstrate how higher education institutions can leverage data
-            to monitor student risk proactively. Many universities struggle to integrate
-            academic, financial, and engagement signals into a single, actionable view
-            for advisors and program coordinators. As a result, interventions are often
-            reactive, fragmented, and implemented too late in the semester to strongly
-            influence retention and success.
-          </p>
-          <p>
-            This project addresses that gap by constructing a synthetic dataset of
-            2,000 students that includes demographic identifiers, program information,
-            academic performance indicators, fee payment status, outstanding balance,
-            and a composite risk score. Clear business rules are used to ensure that,
-            for example, students who have fully paid their tuition have an outstanding
-            balance of zero, while students with balances above a threshold are flagged
-            as higher financial risk. These data are modeled into a one-page Power BI
-            dashboard that provides advisors with a concise view of high-risk students
-            by program, risk band, and financial standing.
-          </p>
-          <p>
-            The resulting prototype illustrates how a student monitoring dashboard can
-            support early identification of students who may need academic or financial
-            assistance. While the dataset is synthetic, the structure, metrics, and
-            interactions are designed to be realistic and transferable to a real
-            institutional context.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- ================= PROBLEM CONTEXT & STAKEHOLDERS ================= -->
-    <section id="problem-context" class="section section-alt" aria-labelledby="problem-title">
-      <div class="container">
-        <h2 class="section-title" id="problem-title">Problem Context & Stakeholders</h2>
-        <div class="grid-2">
-          <article class="card">
-            <h3>Problem Context</h3>
+        <h3>Entity–Relationship (ER) Model</h3>
+        <div class="two-column">
+          <div>
             <p>
-              Student success initiatives often depend on fragmented data stored in
-              multiple systems: learning management platforms, student information
-              systems, and financial offices. Advisors may lack a consolidated, visual
-              way to monitor which students are academically at risk, financially
-              vulnerable, or disengaged. Without a unified view, institutions risk
-              missing key intervention opportunities, particularly for students with
-              multiple overlapping risk factors.
+              The ER model organizes student data across four domains. The Academic
+              table anchors the model via <code>student_id</code>, while Finance,
+              Engagement, and Housing tables reference it through foreign keys.
+              This structure reduces redundancy and supports flexible analysis in
+              Power BI.
             </p>
-          </article>
-          <article class="card">
-            <h3>Stakeholders</h3>
-            <ul class="bullet-list">
-              <li><strong>Academic Advisors:</strong> Need prioritized lists of
-                  students by risk band and program.</li>
-              <li><strong>Program Coordinators:</strong> Require aggregate views of
-                  risk across cohorts and majors.</li>
-              <li><strong>Financial Aid & Bursar Offices:</strong> Monitor outstanding
-                  balances and payment risks.</li>
-              <li><strong>Students (Indirectly):</strong> Benefit from earlier outreach
-                  and support aligned with their risk profile.</li>
+            <ul class="key-points">
+              <li><strong>Academic Department:</strong> GPA, attendance, probation, course load, and risk metrics.</li>
+              <li><strong>Finance:</strong> Fees paid, outstanding balance, financial aid, and scholarship eligibility.</li>
+              <li><strong>Engagement:</strong> Club memberships, event attendance, volunteer service, tutoring sessions.</li>
+              <li><strong>Housing:</strong> Conflicts, housing stability, distance from campus, residence events.</li>
             </ul>
-          </article>
+          </div>
+          <div>
+            <figure>
+              <!-- Replace src with actual filename -->
+              <img src="HSU-ER-Diagram.png" alt="HSU Student Monitoring Dashboard ER Diagram" />
+              <figcaption>
+                Figure 2. ER diagram linking academic, financial, housing, and engagement domains.
+              </figcaption>
+            </figure>
+          </div>
         </div>
+
+        <h3>Data Flow Explanation</h3>
+        <ol class="key-points">
+          <li>Raw data is exported or queried from departmental systems.</li>
+          <li>Power Query cleans, normalizes, and joins these sources using <code>student_id</code>.</li>
+          <li>Cleaned tables are loaded into the FactStudent and dimension tables.</li>
+          <li>DAX measures compute KPIs, risk scores, and banding classifications.</li>
+          <li>Power BI dashboards visualize the results, filtered by role and access level.</li>
+        </ol>
       </div>
     </section>
 
-    <!-- ================= DATA & DESIGN ================= -->
-    <section id="data-design" class="section" aria-labelledby="data-title">
-      <div class="container">
-        <h2 class="section-title" id="data-title">Data Design & Synthetic Dataset</h2>
-        <div class="grid-2">
-          <article class="card">
-            <h3>Dataset Structure</h3>
-            <p>
-              The HSU dataset is fully synthetic and constructed to emulate a realistic
-              student information environment.
-            </p>
-            <ul class="bullet-list">
-              <li>~2,000 rows of student-level data.</li>
-              <li>Core fields: Student_ID, Name, Program, Year Level, GPA Band.</li>
-              <li>Financial fields: Fees_Paid (Yes/No), Outstanding_Balance, Scholarship_Flag.</li>
-              <li>Risk fields: Academic_Risk_Score, Financial_Risk_Score, Overall_Risk_Band.</li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>Business Rules</h3>
-            <p>
-              To keep the dataset coherent and analytically meaningful, a set of
-              explicit rules was applied:
-            </p>
-            <ul class="bullet-list">
-              <li>If <strong>Fees_Paid = "Yes"</strong>, then <strong>Outstanding_Balance = 0</strong>.</li>
-              <li>Students with <strong>Outstanding_Balance &gt; 100</strong> receive
-                  elevated financial risk weighting.</li>
-              <li>Academic risk is influenced by GPA band, failed courses, and program year.</li>
-              <li>Overall risk band (Low / Medium / High) is derived from combined
-                  academic and financial scores.</li>
-            </ul>
-          </article>
+    <!-- ============ DASHBOARD & DATA ANALYSIS ============ -->
+    <section id="dashboard">
+      <div class="section-card">
+        <h2>Dashboard &amp; Data Analysis</h2>
+        <p>
+          The dashboard is implemented in Power BI and published as an interactive
+          report. It provides both an institutional overview and detailed insights
+          at the student level.
+        </p>
+
+        <h3>Embedded Power BI Report</h3>
+        <!-- Replace the src URL below with your real Power BI embed link -->
+        <iframe
+          class="dashboard-frame"
+          src="https://app.powerbi.com/view?r=eyJrIjoiYWFkOTk5ZTktYjUwZi00MzY2LWEyZGMtZTJkMDJhNGMyYjVjIiwidCI6ImNiMGNiZDgzLTU4ZGQtNDVhNS1hYWViLTc5Y2M0NDBmYjAzOCIsImMiOjF9"
+          title="HSU Student Monitoring Dashboard"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+
+        <h3>Key KPIs &amp; Visual Insights</h3>
+        <div class="kpi-badges">
+          <span>Average GPA</span>
+          <span>Attendance %</span>
+          <span>Risk Score &amp; Band</span>
+          <span>Financial Clearance</span>
+          <span>Engagement Level</span>
         </div>
+
+        <p>
+          The <strong>Students Overview Page</strong> highlights campus-wide trends,
+          such as the distribution of students across risk bands, average GPA by
+          program, and the relationship between engagement and academic outcomes.
+          Filters allow users to slice results by term, major, housing status, or
+          financial standing.
+        </p>
+        <p>
+          The <strong>Student Detail Page</strong> provides a 360° profile of a
+          single student. Advisors can review academic history, engagement
+          patterns, financial indicators, and housing context in one place, along
+          with the underlying risk score breakdown. This view supports targeted
+          outreach and tailored intervention planning.
+        </p>
       </div>
     </section>
 
-    <!-- ================= RISK MODEL & KPIs ================= -->
-    <section id="risk-kpi" class="section section-alt" aria-labelledby="risk-title">
-      <div class="container">
-        <h2 class="section-title" id="risk-title">Risk Model & Key Performance Indicators</h2>
-        <div class="grid-2">
-          <article class="card">
-            <h3>Risk Scoring Model</h3>
-            <ul class="bullet-list">
-              <li><strong>Academic Risk Score:</strong> based on GPA band and failed
-                  course count.</li>
-              <li><strong>Financial Risk Score:</strong> based on outstanding balance
-                  thresholds and fee payment status.</li>
-              <li><strong>Overall Risk Band:</strong> categorizes students into Low, Medium,
-                  or High risk for quick prioritization.</li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>Core KPIs</h3>
-            <ul class="bullet-list">
-              <li>Number and percentage of students in each risk band.</li>
-              <li>Total and average outstanding balance by program.</li>
-              <li>Distribution of GPA bands among high-risk students.</li>
-              <li>Count of at-risk students per advisor or program area.</li>
-            </ul>
-          </article>
-        </div>
+    <!-- ============ ETHICAL & SOCIAL CONSIDERATIONS ============ -->
+    <section id="ethics">
+      <div class="section-card">
+        <h2>Ethical &amp; Social Considerations</h2>
+        <p>
+          Because the dashboard handles sensitive student information, ethical and
+          social considerations are central to its design. The system is intended
+          to support students, not to label or penalize them.
+        </p>
+        <ul class="key-points">
+          <li><strong>Privacy &amp; FERPA:</strong> Access to identifiable data should be limited to authorized staff and managed through role-based security.</li>
+          <li><strong>Bias &amp; Fairness:</strong> Risk scores are based on academic and behavioral indicators, not demographic attributes, to reduce the potential for bias.</li>
+          <li><strong>Transparency:</strong> Advisors should understand which factors contribute to a student’s risk score and be able to explain these to the student.</li>
+          <li><strong>Responsible Use:</strong> Insights are meant to guide supportive interventions, such as tutoring, financial counseling, or advising meetings.</li>
+        </ul>
       </div>
     </section>
 
-    <!-- ================= DASHBOARD INSIGHTS ================= -->
-    <section id="dashboard" class="section" aria-labelledby="dashboard-title">
-      <div class="container">
-        <h2 class="section-title" id="dashboard-title">Dashboard Insights</h2>
-        <div class="grid-2">
-          <article class="card">
-            <h3>Key Findings</h3>
-            <ul class="bullet-list">
-              <li>
-                A relatively small subset of students accounts for a large percentage
-                of total outstanding balance, suggesting targeted financial outreach
-                could be highly impactful.
-              </li>
-              <li>
-                Many high-risk students cluster in specific programs and GPA bands,
-                providing a clear focus area for academic support initiatives.
-              </li>
-              <li>
-                Filtering by risk band and year level helps advisors quickly identify
-                first-year or transition-year students who may benefit from more
-                intensive advising.
-              </li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>Dashboard Experience</h3>
-            <p>
-              The one-page Power BI dashboard is designed for quick scanning and
-              action-oriented decision-making. It combines KPI cards (e.g., total
-              at-risk students, total outstanding balance) with segmented bar charts,
-              risk distribution visuals, and tables of individual students.
-            </p>
-            <p class="note">
-              Replace the placeholder below with your actual Power BI embed code.
-            </p>
-            <div class="dashboard-embed" aria-label="HSU dashboard placeholder">
-              <!-- Example (replace src with your actual embed URL):
-              <iframe title="HSU Student Monitoring Dashboard"
-                      src="YOUR_POWER_BI_EMBED_URL"
-                      frameborder="0"
-                      allowfullscreen></iframe>
-              -->
-              <p class="placeholder-text">
-  <a href="https://app.powerbi.com/view?r=eyJrIjoiYWFkOTk5ZTktYjUwZi00MzY2LWEyZGMtZTJkMDJhNGMyYjVjIiwidCI6ImNiMGNiZDgzLTU4ZGQtNDVhNS1hYWViLTc5Y2M0NDBmYjAzOCIsImMiOjF9" 
-     target="_blank" 
-     style="color: #0078d4; text-decoration: underline;">
-    Power BI - Dashboard
-  </a>
-</p>
-              
-            </div>
-          </article>
-        </div>
+    <!-- ============ LESSONS LEARNED & TEAM REFLECTION ============ -->
+    <section id="reflection">
+      <div class="section-card">
+        <h2>Lessons Learned &amp; Team Reflection</h2>
+        <p>
+          Building the HSU Student Monitoring Dashboard strengthened our ability to
+          translate a real higher-education challenge into a practical analytics
+          solution. We learned how important it is to define consistent keys,
+          design a coherent data model, and validate metrics against realistic
+          scenarios before creating visualizations.
+        </p>
+        <p>
+          Technically, the project deepened our skills in Power Query, data
+          modeling, DAX, and dashboard storytelling. We also gained experience
+          balancing detail and usability—deciding which metrics belong in an
+          overview versus a drill-through page, and how to present risk in a way
+          that is actionable rather than overwhelming.
+        </p>
+        <p>
+          As a team, we improved our collaboration, documentation, and version
+          control practices. The project provided a valuable preview of how
+          data-driven tools can support student success initiatives in real
+          institutions and helped us develop a portfolio-ready artifact that
+          reflects our interests in analytics and education technology.
+        </p>
       </div>
     </section>
 
-    <!-- ================= PRIVACY & ETHICS ================= -->
-    <section id="ethics" class="section section-alt" aria-labelledby="ethics-title">
-      <div class="container">
-        <h2 class="section-title" id="ethics-title">Privacy & Ethical Considerations</h2>
-        <article class="card">
-          <ul class="bullet-list">
-            <li>
-              <strong>Data Simulation:</strong> All records are synthetic and do not
-              represent real students; the structure is inspired by realistic
-              institutional scenarios only.
-            </li>
-            <li>
-              <strong>Responsible Use:</strong> A real deployment would need strong
-              governance, role-based access controls, and adherence to regulations
-              such as FERPA or equivalent privacy frameworks.
-            </li>
-            <li>
-              <strong>Interpretation:</strong> Risk scores should be used as starting
-              points for conversation, not as labels that stigmatize students.
-            </li>
-            <li>
-              <strong>Bias Awareness:</strong> Institutions should regularly review
-              risk models for unintended bias across demographic or program groups.
-            </li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <!-- ================= LESSONS & NEXT STEPS ================= -->
-    <section id="lessons" class="section" aria-labelledby="lessons-title">
-      <div class="container">
-        <h2 class="section-title" id="lessons-title">Lessons Learned & Next Steps</h2>
-        <article class="card">
-          <ul class="bullet-list">
-            <li>
-              Designing a coherent student dataset requires clear rules that connect
-              academic, financial, and risk fields in meaningful ways.
-            </li>
-            <li>
-              One-page dashboards are effective when they balance summary KPIs with
-              enough detail to support action (e.g., lists of specific high-risk students).
-            </li>
-            <li>
-              Visualizing risk by program, year level, and GPA band provides a
-              useful bridge between institutional strategy and advisor workflows.
-            </li>
-            <li>
-              Future work could incorporate attendance, LMS activity, and survey
-              engagement metrics to strengthen the risk model.
-            </li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    
+   
+    <p class="footer-note">
+      HSU Student Monitoring Dashboard &mdash; Graduate Project Portfolio Site
+    </p>
   </main>
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>
-        &copy; <span id="year"></span> HSU Student Monitoring Dashboard
-      </p>
-      <p class="footer-meta">Created as part of a Master's-level analytics project.</p>
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
-
-
-
-
